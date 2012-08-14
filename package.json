@@ -1,0 +1,24 @@
+{
+    "name" : "batchflow", 
+    "version" : "0.0.1",
+    "description" :"",
+    "homepage" : [
+       ""
+    ],
+    "repository" : {
+        "type" : "git", 
+        "url" : ""
+    },
+    "keywords" : [],
+    "author" : "JP <jprichardson@gmail.com>",
+    "licenses" : [ {
+        "type" : "MIT",
+        "url" : ""
+    }],
+    "dependencies" : {},
+     "devDepdencies":{},
+    "main" : "./lib/batchflow.js",
+    "scripts": {
+        "test": "mocha test"
+    }
+}
