@@ -1,22 +1,24 @@
 {
     "name" : "batchflow", 
     "version" : "0.0.1",
-    "description" :"",
+    "description" :"Batch process collections in parallel or sequentially.",
     "homepage" : [
        ""
     ],
     "repository" : {
         "type" : "git", 
-        "url" : ""
+        "url" : "git@github.com:jprichardson/node-batchflow.git"
     },
-    "keywords" : [],
+    "keywords" : ["batch", "flow", "parallel", "control", "sequence", "sequentially", "arrays", "async", "step", "seq"],
     "author" : "JP <jprichardson@gmail.com>",
     "licenses" : [ {
         "type" : "MIT",
         "url" : ""
     }],
     "dependencies" : {},
-     "devDepdencies":{},
+     "devDepdencies":{
+        "mocha": "1.3.x"
+    },
     "main" : "./lib/batchflow.js",
     "scripts": {
         "test": "mocha test"
