@@ -165,7 +165,7 @@ bf.end(function(results) {
 batch = require('batchflow')
 files = [... list of files ...]
 bf = batch(files).seq().each (i, file, done) ->
-  fs.readFile(file, done)
+  fs.readFile file, (err, data) -> done(data)
 bf.end (results)
   console.log fr.toString() for fr in results
 ```
