@@ -1,6 +1,6 @@
 {
     "name" : "batchflow", 
-    "version" : "0.0.1",
+    "version" : "0.0.2",
     "description" :"Batch process collections in parallel or sequentially.",
     "homepage" : [
        ""

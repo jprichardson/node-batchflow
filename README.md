@@ -140,7 +140,7 @@ batch(files).parallel()
 
 ### Misc
 
-1. Is `sequential()` or `parallel()` too long? Fine. Type `seq()` or `par()`.
+1. Is `sequential()` or `parallel()` too long? Fine. `series()` and `seq()` are aliases for `sequential()` and `par()` is an alias for `parallel()`.
 2. You don't like the fluent API? That's OK too:
 
 Non-fluent API BatchFlow
@@ -170,6 +170,33 @@ bf.end (results)
   console.log fr.toString() for fr in results
 ```
 
+### Error Handling
+
+What's that, you want error handling? Well, you might as well call me Burger King... have it your way.
+
+```javascript
+var a = {'f': '/tmp/file_DOES_NOT_exist_hopefully' + Math.random()};
+batch(a).parallel().each(function(i, item, done) {
+    fs.readFile(item, done);
+}).error(function(err) {
+    assert(err);
+    done();
+}).end(function() {
+    assert(false); //<--- shouldn't get here
+});
+
+
+var a = ['/tmp/file_DOES_NOT_exist_hopefully' + Math.random()];
+batch(a).series().each(function(i, item, done) {
+    throw new Error('err');
+}).error(function(err) {
+    assert(err);
+    done();
+}).end(function() {
+    assert(false); //<--- shouldn't get here
+});
+
+```
 
 
 License
