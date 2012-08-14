@@ -77,7 +77,7 @@ batch(files).sequential()
 		//do something with data
 		done(someResult);
 	});
-}).end(results) {
+}).end(function(results) {
 	//analyze results
 });
 ```
@@ -95,7 +95,7 @@ batch(files).parallel()
 		//do something with data
 		done(someResult); //<---- yes, you must still call done in parallel, this way we can know when to trigger `end()`.
 	});
-}).end(results) {
+}).end(function(results) {
 	//analyze results
 });
 ```
@@ -115,7 +115,7 @@ batch(files).sequential()
 		//do something with data
 		done(someResult);
 	});
-}).end(results) {
+}).end(function(results) {
 	//analyze results
 });
 ```
@@ -133,7 +133,7 @@ batch(files).parallel()
 		//do something with data
 		done(someResult);
 	});
-}).end(results) {
+}).end(function(results) {
 	//analyze results
 });
 ```
@@ -144,6 +144,7 @@ batch(files).parallel()
 2. You don't like the fluent API? That's OK too:
 
 Non-fluent API BatchFlow
+
 ```javascript
 var batch = require('batchflow');
 var bf = batch(files);
@@ -156,6 +157,18 @@ bf.each(function(i, file, done) {
 bf.end(function(results) {
 	//blah blah
 });
+```
+
+### CoffeeScript
+
+```coffee
+batch = require('batchflow')
+files = [... list of files ...]
+bf = batch(files).seq().each (i, file, done) ->
+  fs.readFile(file, done)
+bf.end (results)
+  console.log fr.toString() for fr in results
+```
 
 
 
