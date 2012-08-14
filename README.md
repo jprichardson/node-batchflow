@@ -94,7 +94,7 @@ batch(files).parallel()
 	fs.readFile(item, function(err, data) {
 		//do something with data
 		done(someResult); //<---- yes, you must still call done in parallel, this way we can know when to trigger `end()`.
-	}
+	});
 }).end(results) {
 	//analyze results
 });
