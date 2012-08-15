@@ -27,7 +27,7 @@ describe('batchflow', function() {
         ];
 
         describe('sequential', function() {
-            it('should execute sequentially', function(done) {
+            it('should execute async sequentially', function(done) {
                 var indexes = [];
 
                 batch(a).sequential()
@@ -53,11 +53,27 @@ describe('batchflow', function() {
                 });
             
             });
+
+            it('should execute sync sequentially', function(done) {
+                var t = [1,2,3];
+                batch(t)
+                  .sequential()
+                  .each(function(i, token, done) {
+                    done(token*2);
+                  })
+                .end(function(results){
+                    assert(results[0] === 2);
+                    assert(results[1] === 4);
+                    assert(results[2] === 6);
+                    done();
+                });
+
+            })
             
-        });
+        })
 
         describe('parallel', function() {
-            it('should execute in parallel', function(done) {
+            it('should execute async in parallel', function(done) {
                 var indexes = [];
 
                 batch(a).parallel()
@@ -81,8 +97,25 @@ describe('batchflow', function() {
 
                     done();
                 });
-            });
-        });
+            })
+
+            it('should execute sync in parallel', function(done) {
+                var t = [1,2,3];//{'a': 1, 'b': 2, 'c': 3};
+                batch(t)
+                  .parallel()
+                  .each(function(i, token, done) {
+                    done(token*2);
+                  })
+                .end(function(results){
+                    assert(results[0] === 2);
+                    assert(results[1] === 4);
+                    assert(results[2] === 6);
+                    done();
+                });
+
+            })
+
+        })
     });
 
     describe('objects', function() {
@@ -108,7 +141,7 @@ describe('batchflow', function() {
         };
 
         describe('sequential', function() {
-            it('should execute sequentially', function(done) {
+            it('should execute async sequentially', function(done) {
                 var keys = [];
 
                 batch(o).sequential()
@@ -134,12 +167,29 @@ describe('batchflow', function() {
                     done();
                 });
             
-            });
+            })
+
+
+            it('should execute sync sequentially', function(done) {
+                var t = {'a': 1, 'b': 2, 'c': 3};
+                batch(t)
+                  .sequential()
+                  .each(function(i, token, done) {
+                    done(token*2);
+                  })
+                .end(function(results){
+                    assert(results[0] === 2);
+                    assert(results[1] === 4);
+                    assert(results[2] === 6);
+                    done();
+                });
+
+            })
             
         });
 
         describe('parallel', function() {
-            it('should execute in parallel', function(done) {
+            it('should execute async in parallel', function(done) {
                 var keys = [];
 
                 batch(o).parallel()
@@ -165,7 +215,23 @@ describe('batchflow', function() {
 
                     done();
                 });
-            });
+            })
+
+            it('should execute sync in parallel', function(done) {
+                var t = {'a': 1, 'b': 2, 'c': 3};
+                batch(t)
+                  .parallel()
+                  .each(function(i, token, done) {
+                    done(token*2);
+                  })
+                .end(function(results){
+                    assert(results[0] === 2);
+                    assert(results[1] === 4);
+                    assert(results[2] === 6);
+                    done();
+                });
+
+            })
         });
 
     });

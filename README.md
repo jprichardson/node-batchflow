@@ -62,9 +62,51 @@ Installation
 Examples
 --------
 
+### 50 Foot Overview
+
+```javascript
+var a = [
+        function(finished) { setTimeout(function(){finished(1)}, 1); }, //executes in 1 ms
+        function(finished) { setTimeout(function(){finished(2)}, 20); }, //executes in 20 ms
+        function(finished) { setTimeout(function(){finished(3)}, 2); } //executes in 2 ms
+    ];
+
+//sequential
+batch(a).sequential()
+.each(function(i, item, done) {
+    item(done);
+}).end(function(results) {
+    for (var i = 0; i < results.length; ++i) {
+        console.log(results[i]);
+    }
+});
+
+/*
+  1
+  2
+  3
+*/
+
+//sequential
+batch(a).parallel()
+.each(function(i, item, done) {
+    item(done);
+}).end(function(results) {
+    for (var i = 0; i < results.length; ++i) {
+        console.log(results[i]);
+    }
+});
+
+/*
+  1
+  3
+  2
+*/
+```
+
 ### Arrays
 
-Let's rewrite the previous sequential example:
+Let's rewrite the previous file patterns mentioned in **Why?** into a sequential example:
 
 **Sequential:**
 ```javascript
