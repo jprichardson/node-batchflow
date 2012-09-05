@@ -10,6 +10,7 @@ Why?
 I really got tired of writing the following patterns over and over again:
 
 **Sequential:**
+
 ```javascript
 var files = [... list of files ...];
 function again(x) {
@@ -29,6 +30,7 @@ again(0);
 or..
 
 **Parallel:**
+
 ```javascript
 var files = [... list of files ...];
 var pending = 0;
@@ -47,7 +49,7 @@ files.forEach(function(file, i) {
 
 That's ugly. For more complicated examples it requires a bit more thinking.
 
-Why don't I use the wonderful library [async][1]? Well, `async` tries to do way too much. I also suffer from a server case of NIH syndrome. Kidding, or else I'd rewrite Express.js. Or, am I? Muahahhaa. `async` syntax is also very ugly and not CoffeeScript friendly.
+Why don't I use the wonderful library [async][1]? Well, `async` tries to do way too much. I also suffer from a severe case of NIH syndrome. Kidding, or else I'd rewrite Express.js. Or, am I? Muahahhaa. `async` syntax is also very ugly and not CoffeeScript friendly.
 
 
 
@@ -109,6 +111,7 @@ batch(a).parallel()
 Let's rewrite the previous file patterns mentioned in **Why?** into a sequential example:
 
 **Sequential:**
+
 ```javascript
 var batch = require('batchflow');
 
@@ -127,6 +130,7 @@ batch(files).sequential()
 How about the parallel example?
 
 **Parallel:**
+ 
  ```javascript
 var batch = require('batchflow');
 
@@ -147,6 +151,7 @@ What's that, your data is not stored in an array? Oh, you say it's stored in an 
 ### Objects
 
 **Sequential:**
+
 ```javascript
 var batch = require('batchflow');
 
@@ -165,6 +170,7 @@ batch(files).sequential()
 How about the parallel example?
 
 **Parallel:**
+
  ```javascript
 var batch = require('batchflow');
 
@@ -243,6 +249,13 @@ batch(a).series().each(function(i, item, done) {
 ```
 
 
+Author
+------
+
+`node-batchtransform` was written by [JP Richardson][aboutjp]. You should follow him on Twitter [@jprichardson][twitter]. Also read his coding blog [Procbits][procbits]. If you write software with others, you should checkout [Gitpilot][gitpilot] to make collaboration with Git simple.
+
+
+
 License
 -------
 
@@ -253,3 +266,10 @@ Copyright 2012, JP  <jprichardson@gmail.com>
 
 
 [1]: https://github.com/caolan/async/
+
+[aboutjp]: http://about.me/jprichardson
+[twitter]: http://twitter.com/jprichardson
+[procbits]: http://procbits.com
+[gitpilot]: http://gitpilot.com
+
+

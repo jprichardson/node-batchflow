@@ -1,4 +1,5 @@
 var assert = require('assert')
+  , testutil = require('testutil')
   , batch = require('../lib/batchflow')
   , fs = require('fs');
 
@@ -69,6 +70,14 @@ describe('batchflow', function() {
                 });
 
             })
+
+            it('should not execute if its empty', function(done) {
+                batch([]).sequential().each(function(){
+                    T (false)
+                }).end(function(results){
+                    done()
+                })
+            })
             
         })
 
@@ -113,6 +122,14 @@ describe('batchflow', function() {
                     done();
                 });
 
+            })
+
+            it('should not execute if its empty', function(done) {
+                batch([]).parallel().each(function(){
+                    T (false)
+                }).end(function(results){
+                    done()
+                })
             })
 
         })
@@ -185,6 +202,14 @@ describe('batchflow', function() {
                 });
 
             })
+
+            it('should not execute if its empty', function(done) {
+                batch({}).sequential().each(function(){
+                    T (false)
+                }).end(function(results){
+                    done()
+                })
+            })
             
         });
 
@@ -231,6 +256,15 @@ describe('batchflow', function() {
                     done();
                 });
 
+            })
+
+
+            it('should not execute if its empty', function(done) {
+                batch({}).parallel().each(function(){
+                    T (false)
+                }).end(function(results){
+                    done()
+                })
             })
         });
 
