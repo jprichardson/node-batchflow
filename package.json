@@ -1,6 +1,6 @@
 {
   "name": "batchflow",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Batch process collections in parallel or sequentially.",
   "homepage": [
     ""
@@ -29,14 +29,12 @@
     }
   ],
   "dependencies": {},
-  "devDepdencies": {
-    "mocha": "1.3.x"
-  },
   "main": "./lib/batchflow.js",
   "scripts": {
     "test": "mocha test"
   },
   "devDependencies": {
-    "testutil": "~0.2.2"
+    "testutil": "~0.2.2",
+    "mocha": "*"
   }
 }
