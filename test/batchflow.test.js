@@ -73,9 +73,9 @@ describe('batchflow', function() {
 
             it('should not execute if its empty', function(done) {
                 batch([]).sequential().each(function(){
-                    T (false)
+                    T(false)
                 }).end(function(results){
-                    done()
+                    done();
                 })
             })
             
