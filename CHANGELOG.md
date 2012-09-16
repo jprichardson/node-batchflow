@@ -1,3 +1,7 @@
+0.2.0 / 2012-09-16
+------------------
+* When no parameter is passed to `done()/next()`, then `undefined` is not added to the `results` array of the `end()` callback.
+
 0.1.0 / 2012-09-06
 ------------------
 * Errors would not throw or show up if generated in `each` method and no error handler was set. 

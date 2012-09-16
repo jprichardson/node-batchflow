@@ -78,6 +78,15 @@ describe('batchflow', function() {
                     done();
                 })
             })
+
+            it('should have an empty results array when nothing is passed to next', function(done) {
+                batch(['hello']).sequential().each(function(i, item, next) {
+                    next();
+                }).end(function(results) {
+                    T (results.length === 0)
+                    done();
+                });
+            })
             
         })
 
@@ -130,6 +139,15 @@ describe('batchflow', function() {
                 }).end(function(results){
                     done()
                 })
+            })
+
+            it('should have an empty results array when nothing is passed to next', function(done) {
+                batch(['hello']).parallel().each(function(i, item, next) {
+                    next();
+                }).end(function(results) {
+                    T (results.length === 0)
+                    done();
+                });
             })
 
         })
@@ -210,6 +228,15 @@ describe('batchflow', function() {
                     done()
                 })
             })
+
+            it('should have an empty results array when nothing is passed to next', function(done) {
+                batch({'a': 'hello'}).sequential().each(function(i, item, next) {
+                    next();
+                }).end(function(results) {
+                    T (results.length === 0)
+                    done();
+                });
+            })
             
         });
 
@@ -265,6 +292,15 @@ describe('batchflow', function() {
                 }).end(function(results){
                     done()
                 })
+            })
+
+            it('should have an empty results array when nothing is passed to next', function(done) {
+                batch({'a': 'hello'}).parallel().each(function(i, item, next) {
+                    next();
+                }).end(function(results) {
+                    T (results.length === 0)
+                    done();
+                });
             })
         });
 
