@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Node-batchflow by jprichardson</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Node-batchflow</h1>
+        <p class="header">Batch process collections in parallel or sequentially.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/jprichardson/node-batchflow/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/jprichardson/node-batchflow/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/jprichardson/node-batchflow">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/jprichardson">jprichardson</a></p>
+
+
+      </header>
+      <section>
+        <h1>Node.js - batchflow</h1>
+
+<p><a href="http://travis-ci.org/jprichardson/node-batchflow"><img src="https://secure.travis-ci.org/jprichardson/node-batchflow.png" alt="build status"></a></p>
+
+<p>Batch process collections in parallel or sequentially.</p>
+
+<h2>Why?</h2>
+
+<p>I really got tired of writing the following patterns over and over again:</p>
+
+<p><strong>Sequential:</strong></p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">[...</span> <span class="nx">list</span> <span class="nx">of</span> <span class="nx">files</span> <span class="p">...];</span>
+<span class="kd">function</span> <span class="nx">again</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">&lt;</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">files</span><span class="p">[</span><span class="nx">x</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">//... do something with data ...</span>
+            <span class="nx">again</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Done.'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">again</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+
+<p>or..</p>
+
+<p><strong>Parallel:</strong></p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">[...</span> <span class="nx">list</span> <span class="nx">of</span> <span class="nx">files</span> <span class="p">...];</span>
+<span class="kd">var</span> <span class="nx">pending</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nx">files</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">pending</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//... do something with data ....</span>
+
+        <span class="nx">pending</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">pending</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">===</span> <span class="nx">files</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Done.'</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>That's ugly. For more complicated examples it requires a bit more thinking.</p>
+
+<p>Why don't I use the wonderful library <a href="https://github.com/caolan/async/">async</a>? Well, <code>async</code> tries to do way too much. I also suffer from a severe case of NIH syndrome. Kidding, or else I'd rewrite Express.js. Or, am I? Muahahhaa. <code>async</code> syntax is also very ugly and not CoffeeScript friendly.</p>
+
+<h2>Installation</h2>
+
+<pre><code>npm install batchflow
+</code></pre>
+
+<h2>Examples</h2>
+
+<h3>50 Foot Overview</h3>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">finished</span><span class="p">)</span> <span class="p">{</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="nx">finished</span><span class="p">(</span><span class="mi">1</span><span class="p">)},</span> <span class="mi">1</span><span class="p">);</span> <span class="p">},</span> <span class="c1">//executes in 1 ms</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">finished</span><span class="p">)</span> <span class="p">{</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="nx">finished</span><span class="p">(</span><span class="mi">2</span><span class="p">)},</span> <span class="mi">20</span><span class="p">);</span> <span class="p">},</span> <span class="c1">//executes in 20 ms</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">finished</span><span class="p">)</span> <span class="p">{</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="nx">finished</span><span class="p">(</span><span class="mi">3</span><span class="p">)},</span> <span class="mi">2</span><span class="p">);</span> <span class="p">}</span> <span class="c1">//executes in 2 ms</span>
+    <span class="p">];</span>
+
+<span class="c1">//sequential</span>
+<span class="nx">batch</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">sequential</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">item</span><span class="p">(</span><span class="nx">done</span><span class="p">);</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="cm">/*</span>
+<span class="cm">  1</span>
+<span class="cm">  2</span>
+<span class="cm">  3</span>
+<span class="cm">*/</span>
+
+<span class="c1">//sequential</span>
+<span class="nx">batch</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">parallel</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">item</span><span class="p">(</span><span class="nx">done</span><span class="p">);</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="cm">/*</span>
+<span class="cm">  1</span>
+<span class="cm">  3</span>
+<span class="cm">  2</span>
+<span class="cm">*/</span>
+</pre></div>
+
+<h3>Arrays</h3>
+
+<p>Let's rewrite the previous file patterns mentioned in <strong>Why?</strong> into a sequential example:</p>
+
+<p><strong>Sequential:</strong></p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">batch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'batchflow'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">[...</span> <span class="nx">list</span> <span class="nx">of</span> <span class="nx">files</span> <span class="p">...];</span>
+<span class="nx">batch</span><span class="p">(</span><span class="nx">files</span><span class="p">).</span><span class="nx">sequential</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//do something with data</span>
+        <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//analyze results</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>How about the parallel example?</p>
+
+<p><strong>Parallel:</strong></p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">batch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'batchflow'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">[...</span> <span class="nx">list</span> <span class="nx">of</span> <span class="nx">files</span> <span class="p">...];</span>
+<span class="nx">batch</span><span class="p">(</span><span class="nx">files</span><span class="p">).</span><span class="nx">parallel</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//do something with data</span>
+        <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span> <span class="c1">//&lt;---- yes, you must still call done in parallel, this way we can know when to trigger `end()`.</span>
+    <span class="p">});</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//analyze results</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>What's that, your data is not stored in an array? Oh, you say it's stored in an object? That's OK too...</p>
+
+<h3>Objects</h3>
+
+<p><strong>Sequential:</strong></p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">batch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'batchflow'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'file1'</span><span class="o">:</span> <span class="s1">'path'</span><span class="p">....</span> <span class="s1">'filen'</span><span class="o">:</span> <span class="s1">'pathn'</span><span class="p">}</span>
+<span class="nx">batch</span><span class="p">(</span><span class="nx">files</span><span class="p">).</span><span class="nx">sequential</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//do something with data</span>
+        <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//analyze results</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>How about the parallel example?</p>
+
+<p><strong>Parallel:</strong></p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">batch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'batchflow'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'file1'</span><span class="o">:</span> <span class="s1">'path'</span><span class="p">....</span> <span class="s1">'filen'</span><span class="o">:</span> <span class="s1">'pathn'</span><span class="p">}</span>
+<span class="nx">batch</span><span class="p">(</span><span class="nx">files</span><span class="p">).</span><span class="nx">parallel</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//do something with data</span>
+        <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//analyze results</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>Misc</h3>
+
+<ol>
+<li>Is <code>sequential()</code> or <code>parallel()</code> too long? Fine. <code>series()</code> and <code>seq()</code> are aliases for <code>sequential()</code> and <code>par()</code> is an alias for <code>parallel()</code>.</li>
+<li>You don't like the fluent API? That's OK too:</li>
+</ol><p>Non-fluent API BatchFlow</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">batch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'batchflow'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">bf</span> <span class="o">=</span> <span class="nx">batch</span><span class="p">(</span><span class="nx">files</span><span class="p">);</span>
+<span class="nx">bf</span><span class="p">.</span><span class="nx">isSequential</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+<span class="nx">bf</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">bf</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//blah blah</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>CoffeeScript</h3>
+
+<div class="highlight"><pre><span class="nv">batch = </span><span class="nx">require</span><span class="p">(</span><span class="s">'batchflow'</span><span class="p">)</span>
+<span class="nv">files = </span><span class="p">[...</span> <span class="nx">list</span> <span class="k">of</span> <span class="nx">files</span> <span class="p">...]</span>
+<span class="nv">bf = </span><span class="nx">batch</span><span class="p">(</span><span class="nx">files</span><span class="p">).</span><span class="nx">seq</span><span class="p">().</span><span class="nx">each</span> <span class="nf">(i, file, done) -&gt;</span>
+  <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">done</span>
+<span class="nx">bf</span><span class="p">.</span><span class="nx">error</span> <span class="nf">(err) -&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="nx">bf</span><span class="p">.</span><span class="nx">end</span> <span class="nf">(results) -&gt;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">fr</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="k">for</span> <span class="nx">fr</span> <span class="k">in</span> <span class="nx">results</span>
+</pre></div>
+
+<h3>Error Handling</h3>
+
+<p>What's that, you want error handling? Well, you might as well call me Burger King... have it your way.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'f'</span><span class="o">:</span> <span class="s1">'/tmp/file_DOES_NOT_exist_hopefully'</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()};</span>
+<span class="nx">batch</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">parallel</span><span class="p">().</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">);</span>
+<span class="p">}).</span><span class="nx">error</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">assert</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="nx">done</span><span class="p">();</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">assert</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span> <span class="c1">//&lt;--- shouldn't get here</span>
+<span class="p">});</span>
+
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'/tmp/file_DOES_NOT_exist_hopefully'</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()];</span>
+<span class="nx">batch</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">series</span><span class="p">().</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">'err'</span><span class="p">);</span>
+<span class="p">}).</span><span class="nx">error</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">assert</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="nx">done</span><span class="p">();</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">assert</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span> <span class="c1">//&lt;--- shouldn't get here</span>
+<span class="p">});</span>
+
+</pre></div>
+
+<h2>Author</h2>
+
+<p><code>node-batchflow</code> was written by <a href="http://about.me/jprichardson">JP Richardson</a>. You should follow him on Twitter <a href="http://twitter.com/jprichardson">@jprichardson</a>. Also read his coding blog <a href="http://procbits.com">Procbits</a>. If you write software with others, you should checkout <a href="http://gitpilot.com">Gitpilot</a> to make collaboration with Git simple.</p>
+
+<h2>License</h2>
+
+<p>(MIT License)</p>
+
+<p>Copyright 2012, JP  <a href="mailto:jprichardson@gmail.com">jprichardson@gmail.com</a></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
