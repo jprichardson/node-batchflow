@@ -1,6 +1,8 @@
-[![build status](https://secure.travis-ci.org/jprichardson/node-batchflow.png)](http://travis-ci.org/jprichardson/node-batchflow)
+
 Node.js - batchflow
 ===================
+
+[![build status](https://secure.travis-ci.org/jprichardson/node-batchflow.png)](http://travis-ci.org/jprichardson/node-batchflow)
 
 Batch process collections in parallel or sequentially.
 
