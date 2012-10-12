@@ -24,8 +24,9 @@ describe('batchflow', function() {
           T (results[1] === 3)
           T (results[2] === 2)
 
-          for (var i = 0; i < indexes.length; ++i) 
+          for (var i = 0; i < indexes.length; ++i) {
             T (indexes[i] === i);
+          }
                       
           T (indexes.length === 3)
 
