@@ -27,69 +27,6 @@ describe('batchflow', function() {
             }
         ];
 
-        describe('sequential', function() {
-            it('should execute async sequentially', function(done) {
-                var indexes = [];
-
-                batch(a).sequential()
-                .each(function(i, item, done) {
-                    indexes.push(i);
-                    item(done);
-                }).end(function(results) {
-                    /*for (var i = 0; i < results.length; ++i) {
-                        console.log(results[i]);
-                    }*/
-                    
-                    assert(results[0] === 1);
-                    assert(results[1] === 2);
-                    assert(results[2] === 3);
-
-                    for (var i = 0; i < indexes.length; ++i) {
-                        assert(indexes[i] === i);
-                    }
-
-                    assert(indexes.length === 3);
-
-                    done();
-                });
-            
-            });
-
-            it('should execute sync sequentially', function(done) {
-                var t = [1,2,3];
-                batch(t)
-                  .sequential()
-                  .each(function(i, token, done) {
-                    done(token*2);
-                  })
-                .end(function(results){
-                    assert(results[0] === 2);
-                    assert(results[1] === 4);
-                    assert(results[2] === 6);
-                    done();
-                });
-
-            })
-
-            it('should not execute if its empty', function(done) {
-                batch([]).sequential().each(function(){
-                    T(false)
-                }).end(function(results){
-                    done();
-                })
-            })
-
-            it('should have an empty results array when nothing is passed to next', function(done) {
-                batch(['hello']).sequential().each(function(i, item, next) {
-                    next();
-                }).end(function(results) {
-                    T (results.length === 0)
-                    done();
-                });
-            })
-            
-        })
-
         describe('parallel', function() {
             it('should execute async in parallel', function(done) {
                 var indexes = [];
