@@ -47,7 +47,7 @@ describe('batchflow', function() {
           indexes.push(i);
           item(next);
         }).end(function(results) {
-          console.log(results)
+          //console.log(results)
           //exit()
           T (results[0] === 1)
           T (results[1] === 3)
