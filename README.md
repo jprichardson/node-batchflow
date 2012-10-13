@@ -270,7 +270,7 @@ batch(a).series().each(function(i, item, done) {
 
 You can set a limit to how many items can be processed in parallel. In fact, `sequential` mode is the same as having the `limit` set to `1` and calling `parallel`. In other words: `batch(myArray).sequential() ....` is the same as `batch(myArray).parallel(1)`.
 
-To set the limit, just pass the limit as a parameter to `parallel()`. The default is 2^53.
+To set the limit, just pass the limit as a parameter to `parallel()`. The **default is 2^53** which is the max integer size in JavaScript.
 
 Example:
 
