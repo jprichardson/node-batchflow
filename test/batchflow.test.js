@@ -15,7 +15,7 @@ describe('batchflow', function() {
                 assert(err);
                 done();
             }).end(function() {
-                assert(false); //<--- shouldn't get here
+                //assert(false); //<--- shouldn't get here
             });
         });
 
@@ -27,7 +27,7 @@ describe('batchflow', function() {
                 assert(err);
                 done();
             }).end(function() {
-                assert(false); //<--- shouldn't get here
+                //assert(false); //<--- shouldn't get here
             });
         });
 
@@ -39,7 +39,7 @@ describe('batchflow', function() {
                 assert(err);
                 done();
             }).end(function() {
-                assert(false); //<--- shouldn't get here
+                //assert(false); //<--- shouldn't get here
             });
         });
 
@@ -51,7 +51,7 @@ describe('batchflow', function() {
                 assert(err);
                 done();
             }).end(function() {
-                assert(false); //<--- shouldn't get here
+                //assert(false); //<--- shouldn't get here
             });
         });
 
@@ -63,7 +63,7 @@ describe('batchflow', function() {
                 assert(err);
                 done();
             }).end(function() {
-                assert(false); //<--- shouldn't get here
+                //assert(false); //<--- shouldn't get here
             });
         });
 
@@ -75,7 +75,7 @@ describe('batchflow', function() {
                 assert(err);
                 done();
             }).end(function() {
-                assert(false); //<--- shouldn't get here
+                //assert(false); //<--- shouldn't get here
             });
         });
 
@@ -87,7 +87,7 @@ describe('batchflow', function() {
                 assert(err);
                 done();
             }).end(function() {
-                assert(false); //<--- shouldn't get here
+                //assert(false); //<--- shouldn't get here
             });
         });
 
@@ -99,7 +99,7 @@ describe('batchflow', function() {
                 assert(err);
                 done();
             }).end(function() {
-                assert(false); //<--- shouldn't get here
+                //assert(false); //<--- shouldn't get here
             });
         });
     });
