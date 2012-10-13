@@ -97,7 +97,8 @@ batch(a).sequential()
 
 Simple Parallel Example:
 
-//sequential
+```javascript
+//parallel
 batch(a).parallel()
 .each(function(i, item, done) {
   item(done);
