@@ -4,31 +4,40 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Node-batchflow by jprichardson</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
-    <div class="wrapper">
+
       <header>
-        <h1 class="header">Node-batchflow</h1>
-        <p class="header">Batch process collections in parallel or sequentially.</p>
-
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/jprichardson/node-batchflow/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/jprichardson/node-batchflow/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/jprichardson/node-batchflow">View On GitHub</a></li>
-        </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/jprichardson">jprichardson</a></p>
-
-
+        <h1>Node-batchflow</h1>
+        <p>Batch process collections in parallel or sequentially.</p>
       </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/jprichardson/node-batchflow" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/jprichardson/node-batchflow/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/jprichardson/node-batchflow/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
       <section>
         <h1>Node.js - batchflow</h1>
 
@@ -89,6 +98,8 @@
 
 <h3>50 Foot Overview</h3>
 
+<p>Simple Sequential Example:</p>
+
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span>
         <span class="kd">function</span><span class="p">(</span><span class="nx">finished</span><span class="p">)</span> <span class="p">{</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="nx">finished</span><span class="p">(</span><span class="mi">1</span><span class="p">)},</span> <span class="mi">1</span><span class="p">);</span> <span class="p">},</span> <span class="c1">//executes in 1 ms</span>
         <span class="kd">function</span><span class="p">(</span><span class="nx">finished</span><span class="p">)</span> <span class="p">{</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="nx">finished</span><span class="p">(</span><span class="mi">2</span><span class="p">)},</span> <span class="mi">20</span><span class="p">);</span> <span class="p">},</span> <span class="c1">//executes in 20 ms</span>
@@ -98,11 +109,11 @@
 <span class="c1">//sequential</span>
 <span class="nx">batch</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">sequential</span><span class="p">()</span>
 <span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">item</span><span class="p">(</span><span class="nx">done</span><span class="p">);</span>
+  <span class="nx">item</span><span class="p">(</span><span class="nx">done</span><span class="p">);</span>
 <span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-    <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+  <span class="p">}</span>
 <span class="p">});</span>
 
 <span class="cm">/*</span>
@@ -110,15 +121,18 @@
 <span class="cm">  2</span>
 <span class="cm">  3</span>
 <span class="cm">*/</span>
+</pre></div>
 
-<span class="c1">//sequential</span>
+<p>Simple Parallel Example:</p>
+
+<div class="highlight"><pre><span class="c1">//parallel</span>
 <span class="nx">batch</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">parallel</span><span class="p">()</span>
 <span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">item</span><span class="p">(</span><span class="nx">done</span><span class="p">);</span>
+  <span class="nx">item</span><span class="p">(</span><span class="nx">done</span><span class="p">);</span>
 <span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
-    <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+  <span class="p">}</span>
 <span class="p">});</span>
 
 <span class="cm">/*</span>
@@ -138,10 +152,10 @@
 
 <span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">[...</span> <span class="nx">list</span> <span class="nx">of</span> <span class="nx">files</span> <span class="p">...];</span>
 <span class="nx">batch</span><span class="p">(</span><span class="nx">files</span><span class="p">).</span><span class="nx">sequential</span><span class="p">()</span>
-<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">//do something with data</span>
-        <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
+        <span class="nx">next</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
     <span class="p">});</span>
 <span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">//analyze results</span>
@@ -159,7 +173,7 @@
 <span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">//do something with data</span>
-        <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span> <span class="c1">//&lt;---- yes, you must still call done in parallel, this way we can know when to trigger `end()`.</span>
+        <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span> <span class="c1">//&lt;---- yes, you must still call done() in parallel, this way we can know when to trigger `end()`.</span>
     <span class="p">});</span>
 <span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">//analyze results</span>
@@ -176,10 +190,10 @@
 
 <span class="kd">var</span> <span class="nx">files</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'file1'</span><span class="o">:</span> <span class="s1">'path'</span><span class="p">....</span> <span class="s1">'filen'</span><span class="o">:</span> <span class="s1">'pathn'</span><span class="p">}</span>
 <span class="nx">batch</span><span class="p">(</span><span class="nx">files</span><span class="p">).</span><span class="nx">sequential</span><span class="p">()</span>
-<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">//do something with data</span>
-        <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
+        <span class="nx">next</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
     <span class="p">});</span>
 <span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">//analyze results</span>
@@ -207,16 +221,16 @@
 <h3>Misc</h3>
 
 <ol>
-<li>Is <code>sequential()</code> or <code>parallel()</code> too long? Fine. <code>series()</code> and <code>seq()</code> are aliases for <code>sequential()</code> and <code>par()</code> is an alias for <code>parallel()</code>.</li>
+<li>Is <code>sequential()</code> or <code>parallel()</code> too long? Fine. <code>series()</code> and <code>seq()</code> are aliases for <code>sequential()</code>. <code>par()</code> is an alias for <code>parallel()</code>.</li>
 <li>You don't like the fluent API? That's OK too:</li>
 </ol><p>Non-fluent API BatchFlow</p>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">batch</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'batchflow'</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">bf</span> <span class="o">=</span> <span class="nx">batch</span><span class="p">(</span><span class="nx">files</span><span class="p">);</span>
-<span class="nx">bf</span><span class="p">.</span><span class="nx">isSequential</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="nx">bf</span><span class="p">.</span><span class="nx">sequential</span><span class="p">()</span>
 
-<span class="nx">bf</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">done</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
+<span class="nx">bf</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">next</span><span class="p">(</span><span class="nx">someResult</span><span class="p">);</span>
 <span class="p">});</span>
 
 <span class="nx">bf</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
@@ -224,7 +238,7 @@
 <span class="p">});</span>
 </pre></div>
 
-<h3>CoffeeScript</h3>
+<h3>CoffeeScript Friendly</h3>
 
 <div class="highlight"><pre><span class="nv">batch = </span><span class="nx">require</span><span class="p">(</span><span class="s">'batchflow'</span><span class="p">)</span>
 <span class="nv">files = </span><span class="p">[...</span> <span class="nx">list</span> <span class="k">of</span> <span class="nx">files</span> <span class="p">...]</span>
@@ -240,27 +254,86 @@
 
 <p>What's that, you want error handling? Well, you might as well call me Burger King... have it your way.</p>
 
+<p>Note that before version <code>0.3</code>, it would exit prematurely if an error happened. This was a boneheaded
+design decision. After <code>0.3</code>, it'll keep happily processing even if an error occured.</p>
+
+<p>Catch an error in the callback parameter...</p>
+
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'f'</span><span class="o">:</span> <span class="s1">'/tmp/file_DOES_NOT_exist_hopefully'</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()};</span>
 <span class="nx">batch</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">parallel</span><span class="p">().</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">);</span>
+  <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">);</span>
 <span class="p">}).</span><span class="nx">error</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">assert</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
-    <span class="nx">done</span><span class="p">();</span>
-<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">assert</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span> <span class="c1">//&lt;--- shouldn't get here</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">fileData</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//do something with file data</span>
 <span class="p">});</span>
+</pre></div>
 
+<p>Catch an error in the function...</p>
 
-<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'/tmp/file_DOES_NOT_exist_hopefully'</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()];</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'/tmp/file_DOES_NOT_exist_hopefully'</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()];</span>
 <span class="nx">batch</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">series</span><span class="p">().</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">'err'</span><span class="p">);</span>
+  <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">'err'</span><span class="p">);</span>
 <span class="p">}).</span><span class="nx">error</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">assert</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
-    <span class="nx">done</span><span class="p">();</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
 <span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">assert</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span> <span class="c1">//&lt;--- shouldn't get here</span>
+  <span class="c1">//do something</span>
 <span class="p">});</span>
 
+</pre></div>
+
+<h3>Limits</h3>
+
+<p>You can set a limit to how many items can be processed in parallel. In fact, <code>sequential</code> mode is the same as having the <code>limit</code> set to <code>1</code> and calling <code>parallel</code>. In other words: <code>batch(myArray).sequential() ....</code> is the same as <code>batch(myArray).parallel(1)</code>.</p>
+
+<p>To set the limit, just pass the limit as a parameter to <code>parallel()</code>. The <strong>default is 2^53</strong> which is the max integer size in JavaScript.</p>
+
+<p>Example:</p>
+
+<div class="highlight"><pre><span class="nx">batch</span><span class="p">(</span><span class="nx">myArray</span><span class="p">).</span><span class="nx">parallel</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">){</span>
+  <span class="c1">// ... code here ... </span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">){</span>
+  <span class="c1">// ... code here ...</span>
+<span class="p">})</span>
+</pre></div>
+
+<h3>Difference between done() and next()</h3>
+
+<p>So you noticed that in all of the examples where I was calling <code>sequential()</code> the third parameter is named <code>next</code> and in the examples where I was calling <code>parallel()</code> the third parameter is named <code>done</code>?  This is really just a matter of convention. It could be named <code>fruitypebbles</code>. But in sequential processing, it makes sense for it to be <code>next</code> because you want to process the next one. However, in parallel processing, you want to alert the system that the callback is <code>done</code>.</p>
+
+<p>Sequential...</p>
+
+<div class="highlight"><pre><span class="nx">batch</span><span class="p">(</span><span class="nx">myArray</span><span class="p">).</span><span class="nx">sequential</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ... code here ...</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">();</span>
+</pre></div>
+
+<p>Parallel...</p>
+
+<div class="highlight"><pre><span class="nx">batch</span><span class="p">(</span><span class="nx">myArray</span><span class="p">).</span><span class="nx">parallel</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ... code here ...</span>
+<span class="p">}).</span><span class="nx">end</span><span class="p">();</span>
+</pre></div>
+
+<h3>Progress</h3>
+
+<p>You can keep track of progress by accessing the <code>finished</code> field.</p>
+
+<p>Compute percentage by this formula: <code>(this.finished / this.total) * 100.0</code>.</p>
+
+<p>Example:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">myar</span> <span class="o">=</span> <span class="p">{</span><span class="nx">w</span><span class="o">:</span> <span class="s1">'hi'</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="s1">'hello'</span><span class="p">,</span> <span class="nx">c</span><span class="o">:</span> <span class="s1">'hola'</span><span class="p">,</span> <span class="nx">z</span><span class="o">:</span> <span class="s1">'gutentag'</span><span class="p">}</span>
+<span class="nx">batch</span><span class="p">(</span><span class="nx">myar</span><span class="p">).</span><span class="nx">sequential</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">finished</span><span class="p">)</span> <span class="c1">//the number finished.</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">total</span><span class="p">)</span> <span class="c1">//4</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="k">this</span><span class="p">.</span><span class="nx">finished</span> <span class="o">/</span> <span class="k">this</span><span class="p">.</span><span class="nx">total</span><span class="p">)</span> <span class="o">*</span> <span class="mf">100.0</span><span class="p">)</span> <span class="c1">//{percent complete}</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">end</span><span class="p">();</span>
 </pre></div>
 
 <h2>Author</h2>
@@ -274,10 +347,11 @@
 <p>Copyright 2012, JP  <a href="mailto:jprichardson@gmail.com">jprichardson@gmail.com</a></p>
       </section>
       <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+        <p>Project maintained by <a href="https://github.com/jprichardson">jprichardson</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+    
   </body>
 </html>
