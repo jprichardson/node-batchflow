@@ -1,3 +1,10 @@
+0.3.0 / 2012-10-13
+------------------
+* Added `total` and `finished` fields.
+* Added `limit` parameter to `parallel()`.
+* Changed behavior that keeps batchflow processing if an error occurs instead of stopping before it iterates all items.
+* Major refactoring of tests and code.
+
 0.2.0 / 2012-09-16
 ------------------
 * When no parameter is passed to `done()/next()`, then `undefined` is not added to the `results` array of the `end()` callback.

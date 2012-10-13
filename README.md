@@ -67,6 +67,8 @@ Examples
 
 ### 50 Foot Overview
 
+Simple Sequential Example:
+
 ```javascript
 var a = [
         function(finished) { setTimeout(function(){finished(1)}, 1); }, //executes in 1 ms
@@ -77,11 +79,11 @@ var a = [
 //sequential
 batch(a).sequential()
 .each(function(i, item, done) {
-    item(done);
+  item(done);
 }).end(function(results) {
-    for (var i = 0; i < results.length; ++i) {
-        console.log(results[i]);
-    }
+  for (var i = 0; i < results.length; ++i) {
+    console.log(results[i]);
+  }
 });
 
 /*
@@ -89,15 +91,18 @@ batch(a).sequential()
   2
   3
 */
+```
+
+Simple Parallel Example:
 
 //sequential
 batch(a).parallel()
 .each(function(i, item, done) {
-    item(done);
+  item(done);
 }).end(function(results) {
-    for (var i = 0; i < results.length; ++i) {
-        console.log(results[i]);
-    }
+  for (var i = 0; i < results.length; ++i) {
+    console.log(results[i]);
+  }
 });
 
 /*
@@ -118,10 +123,10 @@ var batch = require('batchflow');
 
 var files = [... list of files ...];
 batch(files).sequential()
-.each(function(i, item, done) {
+.each(function(i, item, next) {
 	fs.readFile(item, function(err, data) {
 		//do something with data
-		done(someResult);
+		next(someResult);
 	});
 }).end(function(results) {
 	//analyze results
@@ -140,7 +145,7 @@ batch(files).parallel()
 .each(function(i, item, done) {
 	fs.readFile(item, function(err, data) {
 		//do something with data
-		done(someResult); //<---- yes, you must still call done in parallel, this way we can know when to trigger `end()`.
+		done(someResult); //<---- yes, you must still call done() in parallel, this way we can know when to trigger `end()`.
 	});
 }).end(function(results) {
 	//analyze results
@@ -158,10 +163,10 @@ var batch = require('batchflow');
 
 var files = {'file1': 'path'.... 'filen': 'pathn'}
 batch(files).sequential()
-.each(function(key, val, done) {
+.each(function(key, val, next) {
 	fs.readFile(val, function(err, data) {
 		//do something with data
-		done(someResult);
+		next(someResult);
 	});
 }).end(function(results) {
 	//analyze results
@@ -189,7 +194,7 @@ batch(files).parallel()
 
 ### Misc
 
-1. Is `sequential()` or `parallel()` too long? Fine. `series()` and `seq()` are aliases for `sequential()` and `par()` is an alias for `parallel()`.
+1. Is `sequential()` or `parallel()` too long? Fine. `series()` and `seq()` are aliases for `sequential()`. `par()` is an alias for `parallel()`.
 2. You don't like the fluent API? That's OK too:
 
 Non-fluent API BatchFlow
@@ -197,10 +202,10 @@ Non-fluent API BatchFlow
 ```javascript
 var batch = require('batchflow');
 var bf = batch(files);
-bf.isSequential = true;
+bf.sequential()
 
-bf.each(function(i, file, done) {
-	done(someResult);
+bf.each(function(i, file, next) {
+	next(someResult);
 });
  
 bf.end(function(results) {
@@ -208,7 +213,8 @@ bf.end(function(results) {
 });
 ```
 
-### CoffeeScript
+
+### CoffeeScript Friendly
 
 ```coffee
 batch = require('batchflow')
@@ -221,33 +227,101 @@ bf.end (results) ->
   console.log fr.toString() for fr in results
 ```
 
+
 ### Error Handling
 
 What's that, you want error handling? Well, you might as well call me Burger King... have it your way.
 
+Note that before version `0.3`, it would exit prematurely if an error happened. This was a boneheaded
+design decision. After `0.3`, it'll keep happily processing even if an error occured.
+
+Catch an error in the callback parameter...
+
 ```javascript
 var a = {'f': '/tmp/file_DOES_NOT_exist_hopefully' + Math.random()};
 batch(a).parallel().each(function(i, item, done) {
-    fs.readFile(item, done);
+  fs.readFile(item, done);
 }).error(function(err) {
-    assert(err);
-    done();
-}).end(function() {
-    assert(false); //<--- shouldn't get here
+  console.error(err);
+}).end(function(fileData) {
+  //do something with file data
 });
+```
 
+Catch an error in the function...
 
+```javascript
 var a = ['/tmp/file_DOES_NOT_exist_hopefully' + Math.random()];
 batch(a).series().each(function(i, item, done) {
-    throw new Error('err');
+  throw new Error('err');
 }).error(function(err) {
-    assert(err);
-    done();
+  console.error(err);
 }).end(function() {
-    assert(false); //<--- shouldn't get here
+  //do something
 });
 
 ```
+
+
+### Limits
+
+You can set a limit to how many items can be processed in parallel. In fact, `sequential` mode is the same as having the `limit` set to `1` and calling `parallel`. In other words: `batch(myArray).sequential() ....` is the same as `batch(myArray).parallel(1)`.
+
+To set the limit, just pass the limit as a parameter to `parallel()`. The default is 2^53.
+
+Example:
+
+```javascript
+batch(myArray).parallel(8)
+.each(function(i, item, done){
+  // ... code here ... 
+}).end(function(results){
+  // ... code here ...
+})
+```
+
+
+### Difference between done() and next()
+
+So you noticed that in all of the examples where I was calling `sequential()` the third parameter is named `next` and in the examples where I was calling `parallel()` the third parameter is named `done`?  This is really just a matter of convention. It could be named `fruitypebbles`. But in sequential processing, it makes sense for it to be `next` because you want to process the next one. However, in parallel processing, you want to alert the system that the callback is `done`.
+
+Sequential...
+
+```javascript
+batch(myArray).sequential()
+.each(function(i, item, next) {
+  // ... code here ...
+}).end();
+```
+
+Parallel...
+
+```javascript
+batch(myArray).parallel()
+.each(function(i, item, done) {
+  // ... code here ...
+}).end();
+```
+
+
+### Progress
+
+You can keep track of progress by accessing the `finished` field.
+
+Compute percentage by this formula: `(this.finished / this.total) * 100.0`.
+
+Example:
+
+```javascript
+var myar = {w: 'hi', b: 'hello', c: 'hola', z: 'gutentag'}
+batch(myar).sequential()
+.each(function(i, item, next) {
+  console.log(this.finished) //the number finished.
+  console.log(this.total) //4
+  console.log((this.finished / this.total) * 100.0) //{percent complete}
+})
+.end();
+
 
 
 Author
