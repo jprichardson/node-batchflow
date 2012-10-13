@@ -324,7 +324,7 @@ batch(myar).sequential()
   console.log((this.finished / this.total) * 100.0) //{percent complete}
 })
 .end();
-
+```
 
 
 Author
