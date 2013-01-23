@@ -22,7 +22,8 @@ describe('batchflow', function() {
             next(); //is a directory or does not have .json extension
         })
         .error(done)
-        .end(function(results){ 
+        .end(function(results){
+          console.dir(results)
           EQ (results.length, 1)
           T (S(results[0]).endsWith('package.json'))
           done()
