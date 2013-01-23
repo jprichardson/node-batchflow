@@ -22,11 +22,10 @@ describe('batchflow', function() {
         })
         .error(done)
         .end(function(results){ 
-          console.log('RESULTS')
-          console.dir(results)
-          callback(null, results);
-        });
-        done()
+          EQ (results.length, 1)
+          EQ (results[0], files[2])
+          done()
+        })
       })
     })
   })
