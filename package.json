@@ -36,6 +36,7 @@
   "devDependencies": {
     "testutil": "~0.4.0",
     "mocha": "*",
-    "autoresolve": "0.0.3"
+    "autoresolve": "0.0.3",
+    "string": "~1.2.0"
   }
 }

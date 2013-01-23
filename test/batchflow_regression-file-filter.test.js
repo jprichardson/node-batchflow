@@ -3,6 +3,7 @@ var testutil = require('testutil')
   , batch = require('../lib/batchflow')
   , path = require('path')
   , P = require('autoresolve')
+  , S = require('string')
 
 describe('batchflow', function() {
   describe('regression', function() {
@@ -23,7 +24,7 @@ describe('batchflow', function() {
         .error(done)
         .end(function(results){ 
           EQ (results.length, 1)
-          EQ (results[0], files[2])
+          T (S(results[0]).endsWith('package.json'))
           done()
         })
       })
