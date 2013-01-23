@@ -1,6 +1,6 @@
 {
   "name": "batchflow",
-  "version": "0.3.0",
+  "version": "0.3.0a",
   "description": "Batch process collections in parallel or sequentially.",
   "homepage": [
     "http://jprichardson.github.com/node-batchflow/"
@@ -34,7 +34,7 @@
     "test": "mocha test"
   },
   "devDependencies": {
-    "testutil": "~0.2.2",
+    "testutil": "~0.4.0",
     "mocha": "*"
   }
 }
