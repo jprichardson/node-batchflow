@@ -1,3 +1,7 @@
+0.3.1 / 2013-01-22
+------------------
+* Fixed a nasty regression causing the each callback to be called more than the total.
+
 0.3.0 / 2012-10-13
 ------------------
 * Added `total` and `finished` fields.
