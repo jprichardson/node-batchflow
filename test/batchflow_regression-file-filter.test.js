@@ -23,7 +23,7 @@ describe('batchflow', function() {
         })
         .error(done)
         .end(function(results){
-          console.dir(results)
+          //console.dir(results)
           EQ (results.length, 1)
           T (S(results[0]).endsWith('package.json'))
           done()

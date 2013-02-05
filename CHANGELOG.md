@@ -1,3 +1,7 @@
+0.3.2 / 2013-02-05
+------------------
+* Fixed bug that if code in `each` was sync, then it'd eventually cause a RangeError of Maxium Stack Limit.
+
 0.3.1 / 2013-01-22
 ------------------
 * Fixed a nasty regression causing the each callback to be called more than the total.
