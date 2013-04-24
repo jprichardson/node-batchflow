@@ -7,7 +7,7 @@ describe('batchflow', function() {
     var o = {
       'a': function(done) { setTimeout(function() { done(1) }, 1) }, //1 ms 
       'b': function(done) { setTimeout(function() { done(2) }, 20) }, //20 ms
-      'c': function(done) { setTimeout(function() { done(3) }, 2) }  //3 ms
+      'c': function(done) { setTimeout(function() { done(3) }, 5) }  //3 ms
     };
 
     describe('parallel', function() {

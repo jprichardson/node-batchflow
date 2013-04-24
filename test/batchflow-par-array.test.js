@@ -7,7 +7,7 @@ describe('batchflow', function() {
     var a = [ 
       function(done) {  setTimeout(function() { done(1) }, 1) }, //1 ms
       function(done) {  setTimeout(function() { done(2) }, 20) }, //20 ms
-      function(done) {  setTimeout(function() { done(3) }, 2) } //2 ms
+      function(done) {  setTimeout(function() { done(3) }, 5) } //2 ms
     ];
 
 
@@ -20,6 +20,7 @@ describe('batchflow', function() {
           indexes.push(i);
           item(next);
         }).end(function(results) {
+          console.dir(results)
           T (results[0] === 1)
           T (results[1] === 3)
           T (results[2] === 2)

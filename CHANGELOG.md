@@ -1,3 +1,7 @@
+0.4.0 / 2013-04-24
+------------------
+* fixed for Node v0.10
+
 0.3.2 / 2013-02-05
 ------------------
 * Fixed bug that if code in `each` was sync, then it'd eventually cause a RangeError of Maxium Stack Limit.
