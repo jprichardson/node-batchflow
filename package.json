@@ -1,6 +1,6 @@
 {
   "name": "batchflow",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Batch process collections in parallel or sequentially.",
   "homepage": [
     "http://jprichardson.github.com/node-batchflow/"
