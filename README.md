@@ -35,19 +35,18 @@ or..
 **Parallel:**
 
 ```javascript
-var files = [... list of files ...];
-var pending = 0;
+var files = [... list of files ...]
+var pending = 0
 files.forEach(function(file, i) {
-	pending += 1;
-	fs.readFile(file, function(err, data) {
-		//... do something with data ....
-		
-		pending -= 1;
-		if (pending === 0 && i === files.length -1) {
-			console.log('Done.');
+  pending += 1
+  fs.readFile(file, function(err, data) {
+    //... do something with data ....
+    pending -= 1
+    if (pending === 0 && i === files.length -1) {
+      console.log('Done.')
 		}
-	});
-});
+	})
+})
 ```
 
 That's ugly. For more complicated examples it requires a bit more thinking.
