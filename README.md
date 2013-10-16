@@ -12,22 +12,22 @@ Why?
 
 I really got tired of writing the following patterns over and over again:
 
-**Sequential:**
+**Sequential Iteration:**
 
 ```javascript
-var files = [... list of files ...];
+var files = [... list of files ...]
 function again(x) {
-	if (x < files.length) {
-		fs.readFile(files[x], function(err, data) {
-			//... do something with data ...
-			again(x + 1);
-		});
-	} else {
-		console.log('Done.');
-	}
+  if (x < files.length) {
+    fs.readFile(files[x], function(err, data) {
+      //... do something with data ...
+      again(x + 1)
+    })
+  } else {
+    console.log('Done.')
+  }
 }
 
-again(0);
+again(0)
 ```
 
 or..
