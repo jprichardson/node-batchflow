@@ -32,7 +32,7 @@ again(0)
 
 or..
 
-**Parallel:**
+**Parallel Iteration:**
 
 ```javascript
 var files = [... list of files ...]
@@ -44,8 +44,8 @@ files.forEach(function(file, i) {
     pending -= 1
     if (pending === 0 && i === files.length -1) {
       console.log('Done.')
-		}
-	})
+    }
+  })
 })
 ```
 
